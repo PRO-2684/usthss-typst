@@ -472,7 +472,6 @@
 
   show strong: it => text(font: 字体.黑体, weight: "semibold", it.body)
   show emph: it => text(font: 字体.楷体, style: "italic", it.body)
-  set par(spacing: lineSpacing)
   show raw: set text(font: 字体.代码)
 
   show heading: it => [
@@ -662,7 +661,6 @@
       ],
       [
         #set align(center + horizon)
-        // #chineseunderline(ctitle, width: 300pt, bold: true)
         #strong(thesisTitle)
       ],
     )
