@@ -26,8 +26,9 @@
 - 克隆本仓库。
 - 在 VSCode 中打开本仓库。
 - 安装并启用 [Tinymist Typst](https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist) 插件。
-- 打开 `thesis.typ` 文件，按下 `Ctrl + E` 进行侧边浏览，按下 `Ctrl + Shift + E` 进行预览。
-- 修改 `thesis.typ` 完成你的论文写作，随后通过 `Ctrl + Shift + P` 执行 `Typst: Show exported PDF` 命令生成并查看 `thesis.pdf` 文件。
+- 打开 `thesis.typ` 文件，按下：
+    - `Ctrl + E` 进行侧边浏览；
+    - `Ctrl + Shift + P` 执行 `Typst: Show exported PDF` 命令生成 `thesis.pdf` 文件。
 
 ## 致谢
 
