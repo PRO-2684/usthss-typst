@@ -77,8 +77,8 @@
   }
 }
 
-#let chinesenumbering(..nums, location: none, brackets: false) = locate(loc => {
-  let actual_loc = if location == none { loc } else { location }
+#let chinesenumbering(..nums, location: none, brackets: false) = context{
+  let actual_loc = if location == none { here() } else { location }
   if appendixcounter.at(actual_loc).first() < 10 {
     if nums.pos().len() == 1 {
       "第" + chinesenumber(nums.pos().first(), standalone: true) + "章"
@@ -92,10 +92,10 @@
       numbering(if brackets { "(A.1)" } else { "A.1" }, ..nums)
     }
   }
-})
+}
 
-#let chineseheadernumbering(..nums, location: none, brackets: false) = locate(loc => {
-  let actual_loc = if location == none { loc } else { location }
+#let chineseheadernumbering(..nums, location: none, brackets: false) = context{
+  let actual_loc = if location == none { here() } else { location }
   if appendixcounter.at(actual_loc).first() < 10 {
     if nums.pos().len() == 1 {
       "第" + chinesenumber(nums.pos().first(), standalone: true) + "章"
@@ -117,7 +117,7 @@
       numbering(if brackets { "(A.1)" } else { "A.1" }, ..nums)
     }
   }
-})
+}
 
 #let chineseunderline(s, width: 300pt, bold: false) = {
   let chars = s.clusters()
@@ -168,8 +168,8 @@
 #let chineseoutline(title: "目录", depth: none, indent: false) = {
   set text(size: 字号.小四, font: 字体.宋体)
   heading(title, numbering: none, outlined: false)
-  locate(it => {
-    let elements = query(heading.where(outlined: true).after(it), it)
+  context{
+    let elements = query(heading.where(outlined: true).after(here()))
 
     for el in elements {
       // Skip list of images and list of tables
@@ -197,8 +197,8 @@
         }
 
         if maybe_number != none {
-          style(styles => {
-            let width = measure(maybe_number, styles).width
+          context{
+            let width = measure(maybe_number).width
             box(
               width: lengthceil(width),
               link(el.location(), if el.level == 1 {
@@ -207,7 +207,7 @@
                 maybe_number
               })
             )
-          })
+          }
         }
 
         link(el.location(), if el.level == 1 {
@@ -224,13 +224,13 @@
         }
 
         // Page number
-        let footer = query(selector(<__footer__>).after(el.location()), el.location())
+        let footer = query(selector(<__footer__>).after(el.location()))
         let page_number = if footer == () {
           0
         } else {
           counter(page).at(footer.first().location()).first()
         }
-        
+
         link(el.location(), if el.level == 1 {
           strong(str(page_number))
         } else {
@@ -243,7 +243,7 @@
 
       line
     }
-  })
+  }
 }
 
 #let listoffigures(title: "插图", kind: image) = {
@@ -395,8 +395,8 @@
   }
 
   set page("a4",
-    header: locate(loc => {
-      if iscoverpage.at(loc) {
+    header: context{
+      if iscoverpage.at(here()) {
         // skip cover
         return
       }
@@ -408,38 +408,38 @@
         // #v(-linespacing)
         #line(length: 100%)
       ]
-    }),
-    footer: locate(loc => {
-      if skippedstate.at(loc) and calc.even(loc.page()) { return }
+    },
+    footer: context{
+      if skippedstate.at(here()) and calc.even(here().page()) { return }
       [
         #set text(font: 字体.宋体, size: 字号.小五)
         #set align(center)
-        #if query(selector(heading).before(loc), loc).len() < 3 or query(selector(heading).after(loc), loc).len() == 0 {
+        #if query(selector(heading).before(here())).len() < 3 or query(selector(heading).after(here())).len() == 0 {
           // Skip cover, copyright and origin pages
           // skip cabstract & eabstract
         } else {
-          let headers = query(selector(heading).before(loc), loc)
+          let headers = query(selector(heading).before(here()))
           let part = partcounter.at(headers.last().location()).first()
           [
-            #str(counter(page).at(loc).first())
+            #str(counter(page).at(here()).first())
           ]
         }
         #label("__footer__")
       ]
-    }),
+    },
   )
 
   set text(字号.一号, font: 字体.宋体, lang: "zh")
   set align(center + horizon)
   set heading(numbering: chineseheadernumbering)
   set figure(
-    numbering: (..nums) => locate(loc => {
-      if appendixcounter.at(loc).first() < 10 {
-        numbering("1.1", chaptercounter.at(loc).first(), ..nums)
+    numbering: (..nums) => context{
+      if appendixcounter.at(here()).first() < 10 {
+        numbering("1.1", chaptercounter.at(here()).first(), ..nums)
       } else {
-        numbering("A.1", chaptercounter.at(loc).first(), ..nums)
+        numbering("A.1", chaptercounter.at(here()).first(), ..nums)
       }
-    })
+    }
   )
   // set table style
   set table(
@@ -448,9 +448,9 @@
         paint: black,
         thickness: 2pt,
         dash: "solid"
-        ), 
-      left: 1pt + black, 
-      right: 1pt + black, 
+        ),
+      left: 1pt + black,
+      right: 1pt + black,
       bottom: 1pt + black
       )
     } else {
@@ -458,21 +458,21 @@
     }
   )
   set math.equation(
-    numbering: (..nums) => locate(loc => {
+    numbering: (..nums) => context{
       set text(font: 字体.宋体)
-      if appendixcounter.at(loc).first() < 10 {
-        numbering("(1.1)", chaptercounter.at(loc).first(), ..nums)
+      if appendixcounter.at(here()).first() < 10 {
+        numbering("(1.1)", chaptercounter.at(here()).first(), ..nums)
       } else {
-        numbering("(A.1)", chaptercounter.at(loc).first(), ..nums)
+        numbering("(A.1)", chaptercounter.at(here()).first(), ..nums)
       }
-    })
+    }
   )
   set list(indent: 2em)
   set enum(indent: 2em)
 
   show strong: it => text(font: 字体.黑体, weight: "semibold", it.body)
   show emph: it => text(font: 字体.楷体, style: "italic", it.body)
-  show par: set block(spacing: linespacing)
+  set par(spacing: linespacing)
   show raw: set text(font: 字体.代码)
 
   show heading: it => [
@@ -494,18 +494,18 @@
       if not it.body.text in ("Abstract", "学位论文使用授权说明", "版权声明")  {
         smartpagebreak()
       }
-      locate(loc => {
+      context{
         if it.body.text == "摘要" {
           partcounter.update(10)
           counter(page).update(1)
-        } else if it.numbering != none and partcounter.at(loc).first() < 20 {
+        } else if it.numbering != none and partcounter.at(here()).first() < 20 {
           partcounter.update(20)
           // counter(page).update(1)
         } else if it.body.text == "目录" {
           // partcounter.update(20)
           counter(page).update(1)
         }
-      })
+      }
       if it.numbering != none {
         chaptercounter.step()
       }
@@ -684,7 +684,6 @@
       fieldname("完成时间："),
       fieldvalue(date),
     )
-
   }
 
   iscoverpage.update(false) // before pagebreak(header generated);
