@@ -370,7 +370,7 @@
   ctitle: "中国科学技术大学\n学位论文 Typst 模板",
   cmajor: "某个专业",
   csupervisor: "李四",
-  date: "2024年5月1日",
+  date: datetime.today().display("[year] 年 [month] 月 [day] 日"),
   cabstract: [],
   ckeywords: (),
   eabstract: [],

@@ -7,7 +7,7 @@
   ctitle: "中国科学技术大学\n学位论文模板",
   cmajor: "某个专业",
   csupervisor: "李四 教授",
-  date: "2024年5月1日",
+  // date: "2024年5月1日", // 默认为当前日期
   cabstract: [本文介绍了 ustcthss-typst 文档模板所提供的功能. #lorem(100)],
   ckeywords: ("Typst", "模板"),
   eabstract: "This document introduces the features of the ustcthss-typst template.",
