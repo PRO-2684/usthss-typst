@@ -28,7 +28,7 @@
 - 安装并启用 [Tinymist Typst](https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist) 插件。
 - 打开 `thesis.typ` 文件，按下：
     - `Ctrl + E` 进行侧边浏览；
-    - `Ctrl + Shift + P` 执行 `Typst: Show exported PDF` 命令生成 `thesis.pdf` 文件。
+    - `Ctrl + Shift + B` (或手动执行 `Typst: Show exported PDF` 命令) 生成 `thesis.pdf` 文件。
 
 ## 致谢
 
