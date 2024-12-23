@@ -633,7 +633,7 @@
       grid(
         columns: (auto, auto),
         gutter: 0.4em,
-        image("ustcword.png", height: 1.6em, fit: "contain"),
+        image("./images/ustc-name-stxingkai.svg", height: 1.4em, fit: "contain"),
       )
     )
     linebreak()
